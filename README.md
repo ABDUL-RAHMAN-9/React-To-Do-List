@@ -1,13 +1,50 @@
-# React + Vite
+# To-Do List Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React-based To-Do List application with features to add, delete, and reorder tasks. The interface is styled with a modern design, offering an intuitive user experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Add new tasks with a character limit.
+- Reorder tasks using "Up" and "Down" buttons.
+- Delete tasks individually.
+- Tasks are validated for length constraints before addition.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# React-To-Do-List
+- React (JavaScript library for building user interfaces)
+- Tailwind CSS (for styling and responsive design)
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/todo-list-app.git
+   cd todo-list-app
+Install dependencies:
+   ```bash
+npm install
+   ```
+Start the development server:
+   ```bash
+npm start
+   ```
+# Usage
+- Open the application in your web browser:
+
+    ``` bash http://localhost:3000 ```
+- Use the input field to add tasks to your to-do list. Tasks must be between 1 and 50 characters long.
+
+- Use the "Up" and "Down" buttons to reorder tasks, and the "Delete" button to remove tasks.
+
+### Project Structure
+- src/components/ToDoList.js: Main component for the To-Do List application.
+- src/index.js: Entry point for the React app.
