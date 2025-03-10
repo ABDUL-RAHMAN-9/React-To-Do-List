@@ -4,15 +4,55 @@ import { useState } from 'react'
 function ToDoList()
 {
 
-    const [tasks, setTasks] = useState(["task1", "task2", "task3"]);
-    const [newTasks, setNewTask] = useState("");
+    const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState("");
 
     function handleInputChange(event)
     {
         setNewTask(event.target.value);
     }
 
-   
+    function addTask()
+    {
+        if (newTask.trim() !== "")
+        {
+            setTasks(t => [...t, newTask]);
+            setNewTask("");
+        }
+
+    }
+
+    function deleteTask(index)
+    {
+        const updatedTasks = tasks.filter((_, i) => i !== index);
+        setTasks(updatedTasks);
+    }
+
+    function moveTaskUp(index)
+    {
+        if (index > 0)
+        {
+            const updatedTasks = [...tasks];
+            [updatedTasks[index], updatedTasks[index - 1]] =
+                [updatedTasks[index - 1], updatedTasks[index]];
+            setTasks(updatedTasks);
+        }
+    }
+
+    function moveTaskDown(index)
+    {
+        if (index < tasks.length - 1)
+        {
+            const updatedTasks = [...tasks];
+            [updatedTasks[index], updatedTasks[index + 1]] =
+                [updatedTasks[index + 1], updatedTasks[index]];
+            setTasks(updatedTasks);
+
+        }
+
+
+
+    }
     return (
         <>
             <div className="flex flex-col justify-center items-center min-h-screen">
@@ -22,13 +62,13 @@ function ToDoList()
                         <input
                             type="text"
                             placeholder="Enter a task..."
-                            value={newTasks}
-                            onClick={handleInputChange}
+                            value={newTask}
+                            onChange={handleInputChange}
                             className="border border-gray-300 rounded-lg p-3 shadow-2xl shadow-black text-lg w-72 focus:outline-none focus:ring-2 focus:ring-pink-400"
                         />
                         <button
                             className="border rounded-lg py-2 px-8 bg-neutral-600 hover:bg-neutral-700 text-white text-lg transition transform hover:scale-105 shadow-md shadow-black"
-                            onClick={{ addTask }}
+                            onClick={addTask}
                         >
                             Add
                         </button>
