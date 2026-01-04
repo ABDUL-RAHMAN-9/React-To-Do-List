@@ -1,133 +1,202 @@
-import React from 'react'
-import { useState } from 'react'
-
-function ToDoList()
+import React, { useState, useEffect } from 'react';
+import
 {
+    Plus,
+    Trash2,
+    ChevronUp,
+    ChevronDown,
+    CheckCircle2,
+    Circle,
+    LayoutGrid,
+    List,
+    Search,
+    Calendar
+} from 'lucide-react';
 
-    // State to hold the list of tasks
-    const [tasks, setTasks] = useState([]);
-    // State to hold the input value for a new task
+const ToDoList = () =>
+{
+    // Load tasks from localStorage on initial render
+    const [tasks, setTasks] = useState(() =>
+    {
+        const saved = localStorage.getItem('tasks-2026');
+        return saved ? JSON.parse(saved) : [];
+    });
+
     const [newTask, setNewTask] = useState("");
+    const [isGridView, setIsGridView] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
 
-    // Function to handle changes in the input field
-    function handleInputChange(event)
+    // Save to localStorage whenever tasks change
+    useEffect(() =>
     {
-        setNewTask(event.target.value); // Update the state with the current value of the input
-    }
+        localStorage.setItem('tasks-2026', JSON.stringify(tasks));
+    }, [tasks]);
 
-    // Function to add a new task to the list
-    function addTask()
+    const addTask = () =>
     {
-        // Check if the task is non-empty and within the character limit
-        if (newTask.trim().length > 0 && newTask.trim().length <= 50)
+        if (newTask.trim() !== "")
         {
-            setTasks(t => [...t, newTask]); // Add the valid new task to the task list
-            setNewTask(""); // Clear the input field
-        } else
+            const taskObj = {
+                id: Date.now(),
+                text: newTask,
+                completed: false,
+                createdAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+            };
+            setTasks([taskObj, ...tasks]);
+            setNewTask("");
+        }
+    };
+
+    const deleteTask = (id) =>
+    {
+        setTasks(tasks.filter(task => task.id !== id));
+    };
+
+    const toggleComplete = (id) =>
+    {
+        setTasks(tasks.map(task =>
+            task.id === id ? { ...task, completed: !task.completed } : task
+        ));
+    };
+
+    const moveTask = (index, direction) =>
+    {
+        const updatedTasks = [...tasks];
+        const nextIndex = direction === 'up' ? index - 1 : index + 1;
+        if (nextIndex >= 0 && nextIndex < tasks.length)
         {
-            alert("Task must be between 1 and 50 characters long!"); // Alert if the input is invalid
+            [updatedTasks[index], updatedTasks[nextIndex]] = [updatedTasks[nextIndex], updatedTasks[index]];
+            setTasks(updatedTasks);
         }
-    }
+    };
 
-    // Function to delete a task from the list
-    function deleteTask(index)
-    {
-        // Create a new array excluding the task at the specified index
-        const updatedTasks = tasks.filter((_, i) => i !== index);
-        setTasks(updatedTasks); // Update the task list
-    }
-
-    // Function to move a task up in the list
-    function moveTaskUp(index)
-    {
-        if (index > 0)
-        { // Ensure the task is not the first one
-            const updatedTasks = [...tasks]; // Create a copy of the task list
-            // Swap the current task with the one above it
-            [updatedTasks[index], updatedTasks[index - 1]] =
-                [updatedTasks[index - 1], updatedTasks[index]];
-            setTasks(updatedTasks); // Update the task list
-        }
-    }
-
-    // Function to move a task down in the list
-    function moveTaskDown(index)
-    {
-        if (index < tasks.length - 1)
-        { // Ensure the task is not the last one
-            const updatedTasks = [...tasks]; // Create a copy of the task list
-            // Swap the current task with the one below it
-            [updatedTasks[index], updatedTasks[index + 1]] =
-                [updatedTasks[index + 1], updatedTasks[index]];
-            setTasks(updatedTasks); // Update the task list
-        }
-    }
+    const filteredTasks = tasks.filter(t =>
+        t.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
-        <>
-            {/* Main container with center alignment */}
-            <div className="flex flex-col justify-center items-center min-h-screen bg-neutral-800">
-                {/* Card container for the To-Do List */}
-                <div className="flex flex-col justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-3xl w-140 p-8 rounded-2xl shadow-2xl shadow-black ">
-                    <h1 className="text-5xl font-bold mb-6 underline">To-Do-List</h1>
-                    {/* Input field and Add button */}
-                    <div className="flex gap-2 mb-4">
+        <div className="min-h-screen bg-[#09090b] text-zinc-100 p-4 md:p-8 font-sans">
+            {/* Container */}
+            <div className="max-w-6xl mx-auto">
+
+                {/* Header Section */}
+                <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+                    <div>
+                        <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-500 bg-clip-text text-transparent">
+                            Tasks. <span className="text-indigo-500">2026</span>
+                        </h1>
+                        <p className="text-zinc-500 mt-2 font-medium">Manage your workflow with precision.</p>
+                    </div>
+
+                    <div className="flex items-center gap-3 bg-zinc-900/50 p-1.5 rounded-2xl border border-zinc-800">
+                        <button
+                            onClick={() => setIsGridView(false)}
+                            className={`p-2 rounded-xl transition-all ${!isGridView ? 'bg-zinc-800 text-white shadow-xl' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        >
+                            <List size={20} />
+                        </button>
+                        <button
+                            onClick={() => setIsGridView(true)}
+                            className={`p-2 rounded-xl transition-all ${isGridView ? 'bg-zinc-800 text-white shadow-xl' : 'text-zinc-500 hover:text-zinc-300'}`}
+                        >
+                            <LayoutGrid size={20} />
+                        </button>
+                    </div>
+                </header>
+
+                {/* Input & Filter Bar */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                    <div className="md:col-span-2 relative group">
                         <input
                             type="text"
-                            placeholder="Enter a task..."
-                            value={newTask} // Bind the input value to newTask state
-                            onChange={handleInputChange} // Update state on input change
-                            maxLength={30} // Limit input length to 30 characters
-                            className="border border-gray-300 rounded-lg p-3 shadow-2xl shadow-black text-lg w-72 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                            placeholder="What needs to be done?"
+                            value={newTask}
+                            onChange={(e) => setNewTask(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && addTask()}
+                            className="w-full bg-zinc-900/40 border border-zinc-800 rounded-2xl py-4 px-6 pl-14 outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-lg"
                         />
+                        <Plus className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500" size={22} />
                         <button
-                            className="border rounded-lg py-2 px-8 bg-neutral-600 hover:bg-neutral-700 text-white text-lg transition transform hover:scale-105 shadow-md shadow-black"
-                            onClick={addTask} // Add a new task on button click
+                            onClick={addTask}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl font-semibold transition-all active:scale-95"
                         >
                             Add
                         </button>
                     </div>
 
-                    {/* Task list */}
-                    <ol className="space-y-3">
-                        {tasks.map((task, index) => (
-                            <li
-                                key={index} // Unique key for each task
-                                className="bg-neutral-500 text-white p-4 rounded-lg flex justify-between items-center hover:shadow-lg transition shadow-2xl shadow-black"
-                            >
-                                {/* Display the task */}
-                                <span className="text-lg font-medium">{task}</span>
-                                <div className="flex gap-2">
-                                    {/* Delete button */}
-                                    <button
-                                        className="text-red-500 hover:text-red-700 transition"
-                                        onClick={() => deleteTask(index)} // Delete task on button click
-                                    >
-                                        Delete
-                                    </button>
-                                    {/* Move up button */}
-                                    <button
-                                        className="border rounded-lg py-1 px-4 bg-green-500 hover:bg-green-600 text-white shadow-lg  transition"
-                                        onClick={() => moveTaskUp(index)} // Move task up
-                                    >
-                                        Up
-                                    </button>
-                                    {/* Move down button */}
-                                    <button
-                                        className="border rounded-lg py-1 px-4 bg-blue-500 hover:bg-blue-600 text-white shadow-lg  transition"
-                                        onClick={() => moveTaskDown(index)} // Move task down
-                                    >
-                                        Down
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="Search tasks..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full bg-zinc-900/40 border border-zinc-800 rounded-2xl py-4 px-6 pl-12 outline-none focus:border-zinc-600 transition-all"
+                        />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
+                    </div>
                 </div>
-            </div>
-        </>
-    );
 
-}
+                {/* Tasks Grid/List */}
+                <div className={isGridView
+                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                    : "flex flex-col gap-3"
+                }>
+                    {filteredTasks.map((task, index) => (
+                        <div
+                            key={task.id}
+                            className={`group relative bg-zinc-900/40 border border-zinc-800 p-5 rounded-2xl hover:border-zinc-600 transition-all duration-300 ${task.completed ? 'opacity-60' : ''}`}
+                        >
+                            <div className="flex items-start justify-between gap-4">
+                                <button
+                                    onClick={() => toggleComplete(task.id)}
+                                    className="mt-1 transition-colors"
+                                >
+                                    {task.completed ?
+                                        <CheckCircle2 className="text-indigo-500" size={22} /> :
+                                        <Circle className="text-zinc-600 group-hover:text-zinc-400" size={22} />
+                                    }
+                                </button>
+
+                                <div className="flex-1">
+                                    <p className={`text-lg font-medium leading-tight ${task.completed ? 'line-through text-zinc-500' : 'text-zinc-100'}`}>
+                                        {task.text}
+                                    </p>
+                                    <div className="flex items-center gap-2 mt-3 text-xs text-zinc-500 font-mono">
+                                        <Calendar size={12} />
+                                        {task.createdAt}
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={() => moveTask(index, 'up')} className="p-1 hover:text-indigo-400 text-zinc-600"><ChevronUp size={18} /></button>
+                                    <button onClick={() => moveTask(index, 'down')} className="p-1 hover:text-indigo-400 text-zinc-600"><ChevronDown size={18} /></button>
+                                </div>
+                            </div>
+
+                            <div className="mt-4 flex justify-end border-t border-zinc-800/50 pt-4">
+                                <button
+                                    onClick={() => deleteTask(task.id)}
+                                    className="flex items-center gap-2 text-sm text-zinc-500 hover:text-red-400 transition-colors"
+                                >
+                                    <Trash2 size={16} />
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {filteredTasks.length === 0 && (
+                    <div className="text-center py-20">
+                        <div className="inline-block p-6 bg-zinc-900/50 rounded-full mb-4">
+                            <Plus className="text-zinc-700" size={40} />
+                        </div>
+                        <p className="text-zinc-500 text-lg">No tasks found. Start by adding one above.</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
 
 export default ToDoList;
