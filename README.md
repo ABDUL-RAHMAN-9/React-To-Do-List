@@ -1,50 +1,67 @@
-# To-Do List Application
+#  Focus. | 2026 Productivity Suite
 
-A simple React-based To-Do List application with features to add, delete, and reorder tasks. The interface is styled with a modern design, offering an intuitive user experience.
+A premium, high-performance task management dashboard built for the modern professional. Moving beyond the simple list, **Focus.** provides a minimalist workspace designed to keep you centered and organized.
 
-## Features
+---
 
-- Add new tasks with a character limit.
-- Reorder tasks using "Up" and "Down" buttons.
-- Delete tasks individually.
-- Tasks are validated for length constraints before addition.
+##  Design Philosophy
+The **2026 Edition** focuses on three core pillars:
+1. **Glassmorphism:** Using `backdrop-blur` and `z-index` layering for a high-end desktop feel.
+2. **Minimalism:** A "Zinc" palette with "Indigo" accents to reduce cognitive load.
+3. **Fluidity:** Optimized transitions and micro-animations for every user interaction.
 
-## Technologies Used
+---
 
-- React (JavaScript library for building user interfaces)
-- Tailwind CSS (for styling and responsive design)
+##  Core Functionalities
 
-## Getting Started
+### 🛠️ Task Engine
+- **Smart Add:** Instant task creation with `Enter` key support.
+- **Priority Reordering:** Move tasks up or down to adjust your daily flow.
+- **Status Persistence:** Tasks are saved to `localStorage`, ensuring data safety without a backend.
 
-### Prerequisites
+###  Dashboard Features
+- **Grid/List Toggle:** Switch between a focused list and an expansive grid view.
+- **Search System:** Real-time character filtering across all tasks.
+- **Productivity Stats:** Live tracking of completed vs. pending objectives.
+- **Workspace Profile:** Personalized "Welcome" header with editable user identity.
 
-Make sure you have the following installed:
+---
 
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
+## 📂 Project Structure
 
-### Installation
+```text
+Focus-2026/
+├── public/                # Static assets
+├── src/
+│   ├── components/        # UI Components (Lucide Icons)
+│   ├── App.jsx            # Main Application logic
+│   ├── ToDoList.jsx       # The Core Focus Dashboard
+│   ├── index.css          # Tailwind Directives & Global Styles
+│   └── main.jsx           # Vite Entry Point
+├── .gitignore             # Git exclusion rules
+├── package.json           # Dependency management
+├── tailwind.config.js     # Custom Zinc/Indigo theme config
+└── vite.config.js         # Build optimizations
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/todo-list-app.git
-   cd todo-list-app
-Install dependencies:
-   ```bash
-npm install
-   ```
-Start the development server:
-   ```bash
-npm start
-   ```
-# Usage
-- Open the application in your web browser:
+##  Built With
 
-    ``` bash http://localhost:3000 ```
-- Use the input field to add tasks to your to-do list. Tasks must be between 1 and 50 characters long.
+| Technology | Purpose |
+| :--- | :--- |
+| <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="20" height="20" /> **React 18** | Component-based UI Logic |
+| <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vitejs/vitejs-original.svg" width="20" height="20" /> **Vite** | Lightning-fast Build Tooling |
+| <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" width="20" height="20" /> **Tailwind CSS** | Utility-first Minimalist Styling |
+| <img src="https://lucide.dev/logo.light.svg" width="20" height="20" /> **Lucide React** | Scalable Vector Iconography |
+| <img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-icon.svg" width="20" height="20" /> **Local Storage API** | Browser-side Data Persistence |
 
-- Use the "Up" and "Down" buttons to reorder tasks, and the "Delete" button to remove tasks.
+---
 
-### Project Structure
-- src/components/ToDoList.js: Main component for the To-Do List application.
-- src/index.js: Entry point for the React app.
+## License
+
+<p align="center">
+Distributed under the <b>MIT License</b>. See <code>LICENSE</code> for more information.
+</p>
+<div align="right">
+<a href="#-focus-2026">Back to top ↑</a>
+</div>
+
