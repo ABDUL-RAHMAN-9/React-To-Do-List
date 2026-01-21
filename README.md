@@ -1,5 +1,5 @@
-#  Focus. | 2026 Productivity Suite
 <div id="top"></div>
+#  Focus. | 2026 Productivity Suite
 A premium, high-performance task management dashboard built for the modern professional. Moving beyond the simple list, **Focus.** provides a minimalist workspace designed to keep you centered and organized.
 
 ---
