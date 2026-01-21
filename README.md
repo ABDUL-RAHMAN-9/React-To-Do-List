@@ -1,5 +1,5 @@
 #  Focus. | 2026 Productivity Suite
-
+<div id="top"></div>
 A premium, high-performance task management dashboard built for the modern professional. Moving beyond the simple list, **Focus.** provides a minimalist workspace designed to keep you centered and organized.
 
 ---
@@ -62,6 +62,6 @@ Focus-2026/
 Distributed under the <b>MIT License</b>. See <code>LICENSE</code> for more information.
 </p>
 <div align="right">
-<a href="#-focus-2026">Back to top ↑</a>
+<a href="#top" style="cursor: pointer;">Back to top ↑</a>
 </div>
 
